@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+redis
+celery
+python-jose[cryptography]
+passlib[bcrypt]
+slowapi
+loguru
+prometheus-fastapi-instrumentator
+pydantic
