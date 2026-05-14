@@ -1,5 +1,5 @@
 from jose import jwt
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 
 SECRET_KEY = "dev123"
 ALGORITHM = "HS256"
@@ -7,7 +7,7 @@ ALGORITHM = "HS256"
 def create_access_token(data: dict):
     to_encode = data.copy()
 
-    expire = datetime.utcnow() + timedelta(hours=1)
+    expire = datetime.now(timezone.utc) + timedelta(hours=1)
     to_encode.update({"exp": expire})
 
     return jwt.encode(to_encode, SECRET_KEY, algorithm=ALGORITHM)
