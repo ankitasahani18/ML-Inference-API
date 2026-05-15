@@ -1,7 +1,8 @@
 import json
 import redis.asyncio as redis
+from app.core.config import settings
 
-r = redis.Redis(host="redis", port=6379, decode_responses=True)
+r = redis.Redis(host=settings.redis_host, port=settings.redis_port, decode_responses=True)
 
 def make_key(text: str):
     return f"prediction:{text}"
@@ -12,4 +13,4 @@ async def get_cache(text):
 
 async def set_cache(text, value):
     key = make_key(text)
-    await r.set(key, value, ex=3600)
+    await r.set(key, json.dumps(value), ex=3600)

@@ -1,21 +1,29 @@
 version: "3.9"
 
 services:
-
   api:
     build: .
     ports:
       - "8000:8000"
-
     depends_on:
       - redis
+    environment:
+      - REDIS_HOST=redis
+    volumes:
+      - hf_cache:/root/.cache/huggingface
 
   worker:
     build: .
     command: celery -A app.services.tasks worker --loglevel=info
-
     depends_on:
       - redis
+    environment:
+      - REDIS_HOST=redis
+    volumes:
+      - hf_cache:/root/.cache/huggingface
 
   redis:
     image: redis:7
+
+volumes:
+  hf_cache:

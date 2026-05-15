@@ -1,3 +1,4 @@
+import json
 from fastapi import APIRouter, Depends, Request
 from app.models.schemas import PredictRequest, PredictResponse
 
@@ -16,11 +17,9 @@ async def predict_route(
     req: PredictRequest,
     user: str = Depends(get_current_user)
 ):
-
     cached = await get_cache(req.text)
-
     if cached:
-        return PredictResponse(result=cached, cache=True)
+        return PredictResponse(result=json.loads(cached), cache=True)
 
     result = await predict(req.text)
 

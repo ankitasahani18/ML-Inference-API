@@ -1,0 +1,1 @@
+from app.services.tasks import celery
